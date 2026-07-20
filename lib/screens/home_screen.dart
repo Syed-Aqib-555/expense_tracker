@@ -4,6 +4,7 @@ import '../widgets/total_card.dart';
 import '../models/expense.dart';
 import '../services/hive_service.dart';
 import 'add_expense_screen.dart';
+import 'edit_expense_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -59,25 +60,27 @@ class HomeScreen extends StatelessWidget {
                         vertical: 6,
                       ),
                       child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.blue.shade100,
-                          child: const Icon(Icons.account_balance_wallet),
+                        onTap: () async {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => EditExpenseScreen(
+                                expense: expense,
+                                index: index,
+                              ),
+                            ),
+                          );
+                        },
+
+                        leading: const CircleAvatar(
+                          child: Icon(Icons.attach_money),
                         ),
-                        title: Text(
-                          expense.category,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        subtitle: Text(
-                          "${expense.note}\n${expense.date.day}/${expense.date.month}/${expense.date.year}",
-                        ),
-                        trailing: Text(
-                          "Rs ${expense.amount.toStringAsFixed(2)}",
-                          style: const TextStyle(
-                            color: Colors.green,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
+
+                        title: Text(expense.category),
+
+                        subtitle: Text(expense.note),
+
+                        trailing: Text("Rs ${expense.amount}"),
                       ),
                     );
                   },
