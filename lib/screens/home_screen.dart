@@ -54,22 +54,81 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final expense = expenses[index];
 
-                    return Card(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      child: ListTile(
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => EditExpenseScreen(
-                                expense: expense,
-                                index: index,
-                              ),
-                            ),
-                          );
+                    return Dismissible(
+  key: Key(index.toString()),
+
+  direction: DismissDirection.endToStart,
+
+  background: Container(
+    alignment: Alignment.centerRight,
+    padding: const EdgeInsets.only(right: 20),
+    color: Colors.red,
+    child: const Icon(
+      Icons.delete,
+      color: Colors.white,
+      size: 30,
+    ),
+  ),
+
+  onDismissed: (direction) async {
+
+    await HiveService.deleteExpense(
+      box.length - 1 - index,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Expense Deleted"),
+      ),
+    );
+  },
+
+  child: Card(
+    margin: const EdgeInsets.symmetric(
+      horizontal: 12,
+      vertical: 6,
+    ),
+
+    child: ListTile(
+
+      onTap: () async {
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => EditExpenseScreen(
+              expense: expense,
+              index: box.length - 1 - index,
+            ),
+          ),
+        );
+      },
+
+      leading: CircleAvatar(
+        backgroundColor: Colors.blue.shade100,
+        child: const Icon(Icons.account_balance_wallet),
+      ),
+
+      title: Text(
+        expense.category,
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+
+      subtitle: Text(
+        "${expense.note}\n${expense.date.day}/${expense.date.month}/${expense.date.year}",
+      ),
+
+      trailing: Text(
+        "Rs ${expense.amount.toStringAsFixed(2)}",
+        style: const TextStyle(
+          color: Colors.green,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  ),
+);
                         },
 
                         leading: const CircleAvatar(
