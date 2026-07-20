@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-
+import '../widgets/total_card.dart';
 import '../models/expense.dart';
 import '../services/hive_service.dart';
 import 'add_expense_screen.dart';
@@ -38,28 +38,52 @@ class HomeScreen extends StatelessWidget {
           }
 
           final expenses = box.values.toList().reversed.toList();
+          double total = 0;
 
-          return ListView.builder(
-            itemCount: expenses.length,
-            itemBuilder: (context, index) {
-              final expense = expenses[index];
+          for (var expense in expenses) {
+            total += expense.amount;
+          }
+          return Column(
+            children: [
+              TotalCard(total: total),
 
-              return Card(
-                margin: const EdgeInsets.all(10),
-                child: ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.attach_money)),
-                  title: Text(expense.category),
-                  subtitle: Text("${expense.note}\n${expense.date.toLocal()}"),
-                  trailing: Text(
-                    "Rs ${expense.amount}",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: expenses.length,
+                  itemBuilder: (context, index) {
+                    final expense = expenses[index];
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.blue.shade100,
+                          child: const Icon(Icons.account_balance_wallet),
+                        ),
+                        title: Text(
+                          expense.category,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          "${expense.note}\n${expense.date.day}/${expense.date.month}/${expense.date.year}",
+                        ),
+                        trailing: Text(
+                          "Rs ${expense.amount.toStringAsFixed(2)}",
+                          style: const TextStyle(
+                            color: Colors.green,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+            ],
           );
         },
       ),
