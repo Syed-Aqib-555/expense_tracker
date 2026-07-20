@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../models/expense.dart';
+import '../services/hive_service.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   const AddExpenseScreen({super.key});
@@ -125,13 +127,26 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
               const SizedBox(height: 30),
 
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Expense Saved Successfully"),
-                      ),
+                    final expense = Expense(
+                      amount: double.parse(amountController.text),
+                      category: selectedCategory!,
+                      date: selectedDate,
+                      note: noteController.text,
                     );
+
+                    await HiveService.addExpense(expense);
+
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Expense Saved Successfully"),
+                        ),
+                      );
+
+                      Navigator.pop(context);
+                    }
                   }
                 },
                 child: const Text("Save Expense"),

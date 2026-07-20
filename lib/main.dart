@@ -8,6 +8,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Hive.initFlutter();
+  await Hive.initFlutter();
+
+  Hive.registerAdapter(ExpenseAdapter());
+
+  await Hive.openBox<Expense>('expenses');
 
   // Comment this line temporarily if expense.g.dart is not generated yet.
   // Hive.registerAdapter(ExpenseAdapter());
