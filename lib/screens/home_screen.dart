@@ -6,6 +6,7 @@ import '../services/hive_service.dart';
 import 'add_expense_screen.dart';
 import 'edit_expense_screen.dart';
 import '../widgets/category_breakdown.dart';
+import '../widgets/expense_pie_chart.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -59,6 +60,10 @@ for (var expense in expenses) {
             children: [
 
   TotalCard(total: total),
+
+  ExpensePieChart(
+    categoryTotals: categoryTotals,
+  ),
 
   CategoryBreakdown(
     categoryTotals: categoryTotals,
