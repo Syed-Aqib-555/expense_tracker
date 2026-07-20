@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'models/expense.dart';
+//import 'models/expense.dart';
 import 'screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Hive
   await Hive.initFlutter();
 
-  // Register the Expense Adapter
-  Hive.registerAdapter(ExpenseAdapter());
-
-  // Open Hive Box
-  await Hive.openBox<Expense>('expenses');
+  // Comment this line temporarily if expense.g.dart is not generated yet.
+  // Hive.registerAdapter(ExpenseAdapter());
 
   runApp(const MyApp());
 }
@@ -27,7 +23,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Expense Tracker',
-      theme: ThemeData(primarySwatch: Colors.blue),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+      ),
       home: const HomeScreen(),
     );
   }

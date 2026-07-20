@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'add_expense_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,10 +8,15 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Expense Tracker"), centerTitle: true),
-      body: const Center(
-        child: Text(
-          "Welcome to Expense Tracker",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddExpenseScreen()),
+            );
+          },
+          child: const Text("Add Expense"),
         ),
       ),
     );
