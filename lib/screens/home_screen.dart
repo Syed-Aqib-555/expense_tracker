@@ -5,6 +5,7 @@ import '../models/expense.dart';
 import '../services/hive_service.dart';
 import 'add_expense_screen.dart';
 import 'edit_expense_screen.dart';
+import '../widgets/category_breakdown.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -40,15 +41,30 @@ class HomeScreen extends StatelessWidget {
 
           final expenses = box.values.toList().reversed.toList();
           double total = 0;
+Map<String, double> categoryTotals = {};
 
+for (var expense in expenses) {
+  total += expense.amount;
+
+  categoryTotals.update(
+    expense.category,
+    (value) => value + expense.amount,
+    ifAbsent: () => expense.amount,
+  );
+}
           for (var expense in expenses) {
             total += expense.amount;
           }
           return Column(
             children: [
-              TotalCard(total: total),
 
-              Expanded(
+  TotalCard(total: total),
+
+  CategoryBreakdown(
+    categoryTotals: categoryTotals,
+  ),
+
+  Expanded(
                 child: ListView.builder(
                   itemCount: expenses.length,
                   itemBuilder: (context, index) {
