@@ -9,59 +9,38 @@ class ExpensePieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (categoryTotals.isEmpty) {
-      return const SizedBox();
+      return const Center(
+        child: Text("No Data", style: TextStyle(fontSize: 16)),
+      );
     }
 
     final colors = [
-      Colors.blue,
-      Colors.red,
-      Colors.green,
-      Colors.orange,
-      Colors.purple,
-      Colors.teal,
-      Colors.brown,
-      Colors.pink,
+      const Color(0xFFFF9800), // Orange
+      const Color(0xFFE91E63), // Pink
+      const Color(0xFF4CAF50), // Green
+      const Color(0xFF9C27B0), // Purple
+      const Color(0xFF00BCD4), // Cyan
+      const Color(0xFFFFC107), // Amber
+      const Color(0xFF795548), // Brown
+      const Color(0xFF607D8B), // Blue Grey
     ];
 
     int colorIndex = 0;
 
-    return Card(
-      margin: const EdgeInsets.all(12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            const Text(
-              "Expense Chart",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+    return PieChart(
+      PieChartData(
+        centerSpaceRadius: 35,
+        sectionsSpace: 3,
+        borderData: FlBorderData(show: false),
 
-            const SizedBox(height: 20),
-
-            SizedBox(
-              height: 250,
-              child: PieChart(
-                PieChartData(
-                  sections: categoryTotals.entries.map((entry) {
-                    final section = PieChartSectionData(
-                      color: colors[colorIndex++ % colors.length],
-                      value: entry.value,
-                      title: entry.key,
-                      radius: 70,
-                      titleStyle: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    );
-
-                    return section;
-                  }).toList(),
-                ),
-              ),
-            ),
-          ],
-        ),
+        sections: categoryTotals.entries.map((entry) {
+          return PieChartSectionData(
+            color: colors[colorIndex++ % colors.length],
+            value: entry.value,
+            title: "",
+            radius: 30,
+          );
+        }).toList(),
       ),
     );
   }
