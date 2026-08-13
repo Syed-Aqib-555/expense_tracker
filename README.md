@@ -1,17 +1,32 @@
-# expense_tracker
+# Expense Tracker
 
-A new Flutter project.
+A clean, offline-first Flutter app for recording expenses and understanding spending habits.
 
-## Getting Started
+## Highlights
 
-This project is a starting point for a Flutter application.
+- Monthly and all-time spending summaries
+- Category analytics with visual share indicators
+- Search by category, note, or amount
+- Add and edit forms with validation and category shortcuts
+- Swipe-to-delete with confirmation and undo
+- Persistent light and dark themes
+- Local Hive storage; no account or internet connection required
+- Responsive layout for mobile, desktop, and web
 
-A few resources to get you started if this is your first Flutter project:
+## Run locally
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+```bash
+flutter pub get
+flutter run
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To run the quality checks:
+
+```bash
+flutter analyze
+flutter test
+```
+
+## Built with
+
+Flutter, Material 3, Hive, Provider, `intl`, and `fl_chart`.
