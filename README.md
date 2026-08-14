@@ -20,6 +20,13 @@ flutter pub get
 flutter run
 ```
 
+In VS Code, press `F5` and choose **Expense Tracker (Chrome)**. An Edge launch
+target is also included in `.vscode/launch.json`.
+
+Running the native Windows target requires Visual Studio's **Desktop
+development with C++** workload. The Chrome and Edge targets do not require
+that workload.
+
 To run the quality checks:
 
 ```bash
