@@ -17,27 +17,37 @@ class EditExpenseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit expense')),
+      appBar: AppBar(
+        toolbarHeight: 68,
+        centerTitle: true,
+        title: const Text('Edit expense'),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 680),
-            child: ExpenseForm(
-              initialExpense: expense,
-              submitLabel: 'Update expense',
-              onSubmit: (amount, category, date, note) async {
-                await HiveService.updateExpenseByKey(
-                  expenseKey,
-                  Expense(
-                    amount: amount,
-                    category: category,
-                    date: date,
-                    note: note,
-                  ),
-                );
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              child: Card(
+                margin: EdgeInsets.zero,
+                child: ExpenseForm(
+                  initialExpense: expense,
+                  submitLabel: 'Update expense',
+                  onSubmit: (amount, category, date, note) async {
+                    await HiveService.updateExpenseByKey(
+                      expenseKey,
+                      Expense(
+                        amount: amount,
+                        category: category,
+                        date: date,
+                        note: note,
+                      ),
+                    );
 
-                if (context.mounted) Navigator.pop(context, true);
-              },
+                    if (context.mounted) Navigator.pop(context, true);
+                  },
+                ),
+              ),
             ),
           ),
         ),

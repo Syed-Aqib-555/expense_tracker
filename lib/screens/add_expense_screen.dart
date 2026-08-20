@@ -10,25 +10,35 @@ class AddExpenseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Add expense')),
+      appBar: AppBar(
+        toolbarHeight: 68,
+        centerTitle: true,
+        title: const Text('Add expense'),
+      ),
       body: SafeArea(
         child: Center(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 680),
-            child: ExpenseForm(
-              submitLabel: 'Save expense',
-              onSubmit: (amount, category, date, note) async {
-                await HiveService.addExpense(
-                  Expense(
-                    amount: amount,
-                    category: category,
-                    date: date,
-                    note: note,
-                  ),
-                );
+            constraints: const BoxConstraints(maxWidth: 720),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+              child: Card(
+                margin: EdgeInsets.zero,
+                child: ExpenseForm(
+                  submitLabel: 'Save expense',
+                  onSubmit: (amount, category, date, note) async {
+                    await HiveService.addExpense(
+                      Expense(
+                        amount: amount,
+                        category: category,
+                        date: date,
+                        note: note,
+                      ),
+                    );
 
-                if (context.mounted) Navigator.pop(context, true);
-              },
+                    if (context.mounted) Navigator.pop(context, true);
+                  },
+                ),
+              ),
             ),
           ),
         ),
