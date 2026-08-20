@@ -22,97 +22,148 @@ class TotalCard extends StatelessWidget {
     final amount = NumberFormat('#,##0.00').format(total);
 
     return Container(
-      padding: const EdgeInsets.all(24),
+      clipBehavior: Clip.antiAlias,
+      padding: const EdgeInsets.all(26),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF2563EB), Color(0xFF4338CA)],
+          colors: [Color(0xFF4F46E5), Color(0xFF312E81)],
         ),
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2563EB).withValues(alpha: 0.24),
-            blurRadius: 28,
-            offset: const Offset(0, 14),
+            color: const Color(0xFF4338CA).withValues(alpha: 0.22),
+            blurRadius: 30,
+            offset: const Offset(0, 16),
           ),
         ],
       ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final showChart = constraints.maxWidth >= 360;
-          return Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+      child: Stack(
+        children: [
+          Positioned(
+            right: -54,
+            top: -70,
+            child: Container(
+              width: 190,
+              height: 190,
+              decoration: const BoxDecoration(
+                color: Color(0x0FFFFFFF),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          Positioned(
+            right: 72,
+            bottom: -82,
+            child: Container(
+              width: 150,
+              height: 150,
+              decoration: const BoxDecoration(
+                color: Color(0x08FFFFFF),
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final showChart = constraints.maxWidth >= 360;
+              return Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(
-                          Icons.account_balance_wallet_outlined,
-                          color: Colors.white70,
-                          size: 20,
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.account_balance_wallet_outlined,
+                                  color: Colors.white70,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  'Total spending',
+                                  style: Theme.of(context).textTheme.titleMedium
+                                      ?.copyWith(
+                                        color: Colors.white70,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 14),
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                'Rs $amount',
+                                key: const Key('totalAmount'),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 36,
+                                  height: 1,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: -1.2,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          'Total spending',
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(color: Colors.white70),
+                        const SizedBox(height: 22),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            _SummaryPill(
+                              icon: Icons.calendar_month_rounded,
+                              label: periodLabel,
+                            ),
+                            _SummaryPill(
+                              icon: Icons.receipt_long_rounded,
+                              label:
+                                  '$expenseCount ${expenseCount == 1 ? 'expense' : 'expenses'}',
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const SizedBox(height: 14),
-                    FittedBox(
-                      fit: BoxFit.scaleDown,
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Rs $amount',
-                        key: const Key('totalAmount'),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 34,
-                          height: 1,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -1,
+                  ),
+                  if (showChart) ...[
+                    const SizedBox(width: 20),
+                    Container(
+                      width: 118,
+                      height: 118,
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.10),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white.withValues(alpha: 0.12),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _SummaryPill(
-                          icon: Icons.calendar_month_rounded,
-                          label: periodLabel,
-                        ),
-                        _SummaryPill(
-                          icon: Icons.receipt_long_rounded,
-                          label:
-                              '$expenseCount ${expenseCount == 1 ? 'expense' : 'expenses'}',
-                        ),
-                      ],
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ExpensePieChart(categoryTotals: categoryTotals),
+                          const Icon(
+                            Icons.insights_rounded,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                ),
-              ),
-              if (showChart) ...[
-                const SizedBox(width: 20),
-                Container(
-                  width: 112,
-                  height: 112,
-                  padding: const EdgeInsets.all(10),
-                  decoration: const BoxDecoration(
-                    color: Color(0x20FFFFFF),
-                    shape: BoxShape.circle,
-                  ),
-                  child: ExpensePieChart(categoryTotals: categoryTotals),
-                ),
-              ],
-            ],
-          );
-        },
+                ],
+              );
+            },
+          ),
+        ],
       ),
     );
   }

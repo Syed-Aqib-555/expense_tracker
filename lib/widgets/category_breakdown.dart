@@ -22,17 +22,37 @@ class CategoryBreakdown extends StatelessWidget {
     return Card(
       margin: EdgeInsets.zero,
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(22),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Category breakdown',
-              style: theme.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w800,
-              ),
+            Row(
+              children: [
+                Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: colors.primaryContainer,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.donut_small_rounded,
+                    color: colors.onPrimaryContainer,
+                    size: 20,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Text(
+                    'Category breakdown',
+                    style: theme.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w900,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 10),
             Text(
               'See where your money went',
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -44,7 +64,9 @@ class CategoryBreakdown extends StatelessWidget {
               final category = categoryDataFor(entry.key);
               final share = total == 0 ? 0.0 : entry.value / total;
               return Padding(
-                padding: const EdgeInsets.only(bottom: 18),
+                padding: EdgeInsets.only(
+                  bottom: entry.key == entries.last.key ? 0 : 20,
+                ),
                 child: Column(
                   children: [
                     Row(
