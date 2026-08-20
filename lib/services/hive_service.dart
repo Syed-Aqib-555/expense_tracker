@@ -20,7 +20,19 @@ class HiveService {
     await getBox().deleteAt(index);
   }
 
+  static Future<void> deleteExpenseByKey(dynamic key) async {
+    await getBox().delete(key);
+  }
+
+  static Future<void> restoreExpense(dynamic key, Expense expense) async {
+    await getBox().put(key, expense);
+  }
+
   static Future<void> updateExpense(int index, Expense expense) async {
     await getBox().putAt(index, expense);
+  }
+
+  static Future<void> updateExpenseByKey(dynamic key, Expense expense) async {
+    await getBox().put(key, expense);
   }
 }

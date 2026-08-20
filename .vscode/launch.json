@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Expense Tracker (Chrome)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "chrome"
+    },
+    {
+      "name": "Expense Tracker (Edge)",
+      "type": "dart",
+      "request": "launch",
+      "program": "lib/main.dart",
+      "deviceId": "edge"
+    }
+  ]
+}
